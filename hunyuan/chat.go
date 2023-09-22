@@ -44,9 +44,9 @@ type Delta struct {
 }
 
 type ChatCompletionChoice struct {
-	Message      string `json:"message,omitempty"`
-	FinishReason string `json:"finish_reason"`
-	Delta        Delta  `json:"delta,omitempty"`
+	Messages     ChatCompletionMessage `json:"messages,omitempty"`
+	FinishReason string                `json:"finish_reason"`
+	Delta        Delta                 `json:"delta,omitempty"`
 }
 
 type ChatCompletionResponseErr struct {
