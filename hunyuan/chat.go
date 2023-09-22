@@ -75,7 +75,7 @@ func (c *Client) CreateChatCompletion(
 	//	return
 	//}
 
-	//c.SetRequestDefault(&request)
+	c.SetRequestDefault(&request)
 	urlSuffix := "/hyllm/v1/chat/completions"
 	req, err := c.requestBuilder.Build(ctx, http.MethodPost, c.fullURL(urlSuffix), request)
 	if err != nil {
