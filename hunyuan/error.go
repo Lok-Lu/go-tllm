@@ -7,9 +7,8 @@ import (
 
 // APIError provides error information returned by the OpenAI API.
 type APIError struct {
-	Code           any    `json:"code,omitempty"`
+	Code           int    `json:"code,omitempty"`
 	Message        string `json:"message"`
-	Details        any    `json:"details"`
 	HTTPStatusCode int    `json:"-"`
 }
 

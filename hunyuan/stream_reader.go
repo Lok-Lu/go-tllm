@@ -55,8 +55,7 @@ func (stream *streamReader[T]) processLines() (T, error) {
 
 		var headerData = []byte("data: ")
 		noSpaceLine := bytes.TrimSpace(rawLine)
-		fmt.Println(rawLine, 111)
-		fmt.Println(string(noSpaceLine), 111)
+
 		if !bytes.HasPrefix(noSpaceLine, headerData) {
 			writeErr := stream.errAccumulator.Write(noSpaceLine)
 			if writeErr != nil {

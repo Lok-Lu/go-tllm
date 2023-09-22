@@ -1,6 +1,7 @@
 package hunyuan
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -49,9 +50,9 @@ func (c *Client) sendRequest(req *http.Request, v any, signToken string) error {
 
 	defer res.Body.Close()
 
-	if isFailureStatusCode(res) {
-		return c.handleErrorResp(res)
-	}
+	//if isFailureStatusCode(res) {
+	//	return c.handleErrorResp(res)
+	//}
 
 	return decodeResponse(res.Body, v)
 }
@@ -68,7 +69,14 @@ func decodeResponse(body io.Reader, v any) error {
 	if result, ok := v.(*string); ok {
 		return decodeString(body, result)
 	}
-	return json.NewDecoder(body).Decode(v)
+	b, err := io.ReadAll(body)
+	if err != nil {
+		return err
+	}
+	var headerData = []byte("data: ")
+	noSpaceLine := bytes.TrimSpace(b)
+	noPrefixLine := bytes.TrimPrefix(noSpaceLine, headerData)
+	return json.Unmarshal(noPrefixLine, v)
 }
 
 func decodeString(body io.Reader, output *string) error {

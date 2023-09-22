@@ -51,7 +51,7 @@ type ChatCompletionChoice struct {
 
 type ChatCompletionResponseErr struct {
 	Message string `json:"message"`
-	Code    string `json:"code"`
+	Code    int    `json:"code"`
 }
 
 // ChatCompletionResponse represents a response structure for chat completion API.
@@ -75,7 +75,7 @@ func (c *Client) CreateChatCompletion(
 	//	return
 	//}
 
-	c.SetRequestDefault(&request)
+	//c.SetRequestDefault(&request)
 	urlSuffix := "/hyllm/v1/chat/completions"
 	req, err := c.requestBuilder.Build(ctx, http.MethodPost, c.fullURL(urlSuffix), request)
 	if err != nil {
