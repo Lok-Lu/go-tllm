@@ -104,20 +104,16 @@ func (c *Client) GenerateAuthToken(req ChatCompletionRequest, urlSuffix string) 
 
 	if req.Temperature != nil {
 		signStr.WriteString(fmt.Sprintf("temperature=%g&", *req.Temperature))
-	} else {
-		signStr.WriteString("temperature=1&")
 	}
 
 	signStr.WriteString(fmt.Sprintf("timestamp=%d&", req.Timestamp))
 
 	if req.TopP != nil {
 		signStr.WriteString(fmt.Sprintf("top_p=%g", *req.TopP))
-	} else {
-		signStr.WriteString("top_p=1")
 	}
 
 	h := hmac.New(sha1.New, []byte(c.config.secretKey))
-	h.Write([]byte(signStr.String()))
+	h.Write([]byte(strings.TrimSuffix(signStr.String(), "&")))
 	encryptedStr := h.Sum([]byte(nil))
 	var signature = base64.StdEncoding.EncodeToString(encryptedStr)
 	return signature

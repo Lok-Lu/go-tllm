@@ -73,6 +73,7 @@ func decodeResponse(body io.Reader, v any) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(string(b), 11)
 	var headerData = []byte("data: ")
 	noSpaceLine := bytes.TrimSpace(b)
 	noPrefixLine := bytes.TrimPrefix(noSpaceLine, headerData)
