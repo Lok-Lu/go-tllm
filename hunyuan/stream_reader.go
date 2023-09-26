@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	utils "github.com/Lok-Lu/go-tllm/internal"
 )
@@ -44,7 +45,6 @@ func (stream *streamReader[T]) processLines() (T, error) {
 
 	for {
 		rawLine, readErr := stream.reader.ReadBytes('\n')
-		fmt.Println(string(rawLine), readErr, 2211)
 		if readErr != nil {
 			respErr := stream.unmarshalError()
 			if respErr != nil {
@@ -69,7 +69,7 @@ func (stream *streamReader[T]) processLines() (T, error) {
 		}
 
 		noPrefixLine := bytes.TrimPrefix(noSpaceLine, headerData)
-		if string(noPrefixLine) == "[DONE]" {
+		if string(noPrefixLine) == "[DONE]" || strings.Contains(string(noPrefixLine), `"finish_reason":"stop"`) {
 			stream.isFinished = true
 			return *new(T), io.EOF
 		}
