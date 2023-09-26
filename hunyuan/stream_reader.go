@@ -79,6 +79,7 @@ func (stream *streamReader[T]) processLines() (T, error) {
 		if unmarshalErr != nil {
 			return *new(T), unmarshalErr
 		}
+		return response, nil
 	}
 }
 

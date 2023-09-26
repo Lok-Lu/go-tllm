@@ -30,9 +30,9 @@ func (c *Client) CreateChatCompletionStream(
 	if err != nil {
 		return
 	}
-	if isFailureStatusCode(resp) {
-		return nil, c.handleErrorResp(resp)
-	}
+	//if isFailureStatusCode(resp) {
+	//	return nil, c.handleErrorResp(resp)
+	//}
 
 	stream = &ChatCompletionStream{
 		streamReader: &streamReader[*ChatCompletionResponse]{
